@@ -1,0 +1,40 @@
+{
+  "Comment": "Leave Approval",
+  "StartAt": "Choice",
+  "States": {
+    "Choice": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.numberOfDays",
+          "NumericLessThanEquals": 2,
+          "Next": "Approve Leave and Update Data",
+          "Comment": "Auto Approve If Less Than 2 days"
+        }
+      ],
+      "Default": "Wait For Approval"
+    },
+    "Approve Leave and Update Data": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "OutputPath": "$.Payload",
+      "Parameters": {
+        "Payload.$": "$",
+        "FunctionName": "${ApproveLeaveArn}"
+      },
+      "End": true
+    },
+    "Wait For Approval": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke.waitForTaskToken",
+      "Parameters": {
+        "Payload": {
+          "leaveData.$": "$",
+          "token.$": "$$.Task.Token"
+        },
+        "FunctionName": "${WaitForTaskTokenArn}"
+      },
+      "Next": "Approve Leave and Update Data"
+    }
+  }
+}

@@ -1,0 +1,318 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: "ACD Leave Approval Application"
+Resources:
+  # cognito trigger
+  CognitoTriggerPostSignup:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: create-user-trigger
+      CodeUri: lambdas/create-user-trigger/
+      Handler: app.lambdaHandler
+      Runtime: nodejs14.x
+      Environment:
+        Variables:
+          LeaveTable: !Ref LeaveTable
+          UserInfoTable: !Ref UserInfoTable
+      Policies:
+        - AWSLambdaDynamoDBExecutionRole
+        - DynamoDBCrudPolicy:
+            TableName: !Ref LeaveTable
+        - DynamoDBCrudPolicy:
+            TableName: !Ref UserInfoTable
+
+  # get user infor after login
+  GetUserInfo:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: get-user-info
+      CodeUri: lambdas/get-user-info/
+      Handler: app.lambdaHandler
+      Runtime: nodejs14.x
+      Environment:
+        Variables:
+          LeaveTable: !Ref LeaveTable
+          UserInfoTable: !Ref UserInfoTable
+      Policies:
+        - AWSLambdaDynamoDBExecutionRole
+        - DynamoDBCrudPolicy:
+            TableName: !Ref LeaveTable
+        - DynamoDBCrudPolicy:
+            TableName: !Ref UserInfoTable
+      Events:
+        Root:
+          Type: Api
+          Properties:
+            RestApiId: !Ref LeaveApprovalApi
+            Path: /getUserInfo
+            Method: POST
+
+  # async trigger for leave approval
+  ManualApproval:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: manual-approval
+      CodeUri: lambdas/manual-approval
+      Handler: app.lambdaHandler
+      Runtime: nodejs14.x
+      Environment:
+        Variables:
+          LeaveTable: !Ref LeaveTable
+          UserInfoTable: !Ref UserInfoTable
+      Policies:
+        - AWSLambdaDynamoDBExecutionRole
+        - DynamoDBCrudPolicy:
+            TableName: !Ref LeaveTable
+        - DynamoDBCrudPolicy:
+            TableName: !Ref UserInfoTable
+        - Statement:
+            - Sid: StepFunctionTaskToken
+              Effect: Allow
+              Action:
+                - states:SendTaskSuccess
+              Resource: "*"
+      Events:
+        Root:
+          Type: Api
+          Properties:
+            RestApiId: !Ref LeaveApprovalApi
+            Path: /manualApproval
+            Method: POST
+
+  # step function lambda - approve leave
+  ApproveLeave:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: approve-leave
+      CodeUri: lambdas/approve-leave
+      Handler: app.lambdaHandler
+      Runtime: nodejs14.x
+      Environment:
+        Variables:
+          LeaveTable: !Ref LeaveTable
+          UserInfoTable: !Ref UserInfoTable
+      Policies:
+        - AWSLambdaDynamoDBExecutionRole
+        - DynamoDBCrudPolicy:
+            TableName: !Ref LeaveTable
+        - DynamoDBCrudPolicy:
+            TableName: !Ref UserInfoTable
+
+  # step function lambda - wait for task token
+  WaitForTaskToken:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: wait-for-task-token
+      CodeUri: lambdas/wait-for-tasktoken
+      Handler: app.lambdaHandler
+      Runtime: nodejs14.x
+      Environment:
+        Variables:
+          LeaveTable: !Ref LeaveTable
+          UserInfoTable: !Ref UserInfoTable
+      Policies:
+        - AWSLambdaDynamoDBExecutionRole
+        - DynamoDBCrudPolicy:
+            TableName: !Ref LeaveTable
+        - DynamoDBCrudPolicy:
+            TableName: !Ref UserInfoTable
+
+  # step function
+  LeaveApplicationStepFunction:
+    Type: AWS::Serverless::StateMachine
+    Properties:
+      Name: approve-leave
+      DefinitionUri: stepfunction/approve-leave.asl.json
+      DefinitionSubstitutions:
+        ApproveLeaveArn: !GetAtt ApproveLeave.Arn
+        WaitForTaskTokenArn: !GetAtt WaitForTaskToken.Arn
+      Policies:
+        - CloudWatchLogsFullAccess
+        - LambdaInvokePolicy:
+            Effect: Allow
+            Action: lambda:InvokeFunction
+            FunctionName: "*"
+            Resource:
+              - !GetAtt WaitForTaskToken.Arn
+              - !GetAtt ApproveLeave.Arn
+      Logging:
+        IncludeExecutionData: true
+        Level: ALL
+        Destinations:
+          - CloudWatchLogsLogGroup:
+              LogGroupArn: !GetAtt LeaveApplicationLogGroup.Arn
+      Events:
+        Root:
+          Type: Api
+          Properties:
+            RestApiId: !Ref LeaveApprovalApi
+            Path: /requestLeave
+            Method: POST
+
+  LeaveApplicationLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      RetentionInDays: 7
+      LogGroupName: !Sub "LeaveApplicationLogGroup"
+
+  #dynamodb - userInfo
+  UserInfoTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: UserInfoTable
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: "email"
+          AttributeType: "S"
+      KeySchema:
+        - AttributeName: "email"
+          KeyType: "HASH"
+
+  #dynamodb
+  LeaveTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: LeaveTable
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: "id"
+          AttributeType: "S"
+      KeySchema:
+        - AttributeName: "id"
+          KeyType: "HASH"
+
+  #api
+  LeaveApprovalApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: Prod
+      Cors: "'*'"
+      Auth:
+        DefaultAuthorizer: CognitoAuthorizer
+        Authorizers:
+          CognitoAuthorizer:
+            UserPoolArn: !GetAtt CognitoUserPool.Arn
+
+  #cognito pool
+  CognitoUserPool:
+    Type: AWS::Cognito::UserPool
+    Properties:
+      UserPoolName: ACD-User-Pool
+      AutoVerifiedAttributes:
+        - email
+      AliasAttributes:
+        - email
+      Policies:
+        PasswordPolicy:
+          MinimumLength: 8
+          RequireUppercase: true
+          RequireLowercase: true
+          RequireNumbers: true
+          RequireSymbols: true
+      Schema:
+        - AttributeDataType: String
+          Name: email
+          Required: true
+      LambdaConfig:
+        PostConfirmation: !GetAtt WaitForTaskToken.Arn
+
+  #cognito pool client
+  CognitoUserPoolClient:
+    Type: AWS::Cognito::UserPoolClient
+    Properties:
+      UserPoolId: !Ref CognitoUserPool
+      ClientName: ACD-User-Pool-Client
+      GenerateSecret: false
+      SupportedIdentityProviders:
+        - COGNITO
+      AllowedOAuthFlows:
+        - implicit
+      AllowedOAuthScopes:
+        - email
+        - openid
+        - aws.cognito.signin.user.admin
+        - profile
+      CallbackURLs:
+        - http://localhost:3000
+      LogoutURLs:
+        - http://localhost:3000
+      ExplicitAuthFlows:
+        - ALLOW_USER_PASSWORD_AUTH
+        - ALLOW_REFRESH_TOKEN_AUTH
+
+  #cognito domain
+  CognitoDomain:
+    Type: AWS::Cognito::UserPoolDomain
+    Properties:
+      Domain: acdleaveapproval
+      UserPoolId: !Ref CognitoUserPool
+
+  #s3 bucket and hosting
+
+  # Create the bucket to contain the website HTML
+  S3Bucket:
+    Type: "AWS::S3::Bucket"
+    Properties:
+      BucketName: acd-website-hosting
+      WebsiteConfiguration:
+        ErrorDocument: "error.html"
+        IndexDocument: "index.html"
+
+  # Configure the bucket as a CloudFront Origin
+  ReadPolicy:
+    Type: "AWS::S3::BucketPolicy"
+    Properties:
+      Bucket: !Ref S3Bucket
+      PolicyDocument:
+        Statement:
+          - Action: "s3:GetObject"
+            Effect: Allow
+            Resource: !Sub "arn:aws:s3:::${S3Bucket}/*"
+            Principal:
+              CanonicalUser: !GetAtt CloudFrontOriginAccessIdentity.S3CanonicalUserId
+
+  # Configure Access to CloudFroun
+  CloudFrontOriginAccessIdentity:
+    Type: "AWS::CloudFront::CloudFrontOriginAccessIdentity"
+    Properties:
+      CloudFrontOriginAccessIdentityConfig:
+        Comment: !Ref S3Bucket
+
+  # Configure CloudFront
+  CloudFrontDistribution:
+    Type: "AWS::CloudFront::Distribution"
+    Properties:
+      DistributionConfig:
+        CustomErrorResponses:
+          - ErrorCode: 403 # not found
+            ResponseCode: 404
+            ResponsePagePath: "/index.html"
+        DefaultCacheBehavior:
+          AllowedMethods:
+            - GET
+            - HEAD
+            - OPTIONS
+          CachedMethods:
+            - GET
+            - HEAD
+            - OPTIONS
+          Compress: true
+          DefaultTTL: 3600 # in seconds
+          ForwardedValues:
+            Cookies:
+              Forward: none
+            QueryString: false
+          MaxTTL: 86400 # in seconds
+          MinTTL: 60 # in seconds
+          TargetOriginId: s3origin
+          ViewerProtocolPolicy: "allow-all"
+        # This DefaultRootObject configuration is not enough.
+        DefaultRootObject: "/index.html"
+        Enabled: true
+        HttpVersion: http2
+        Origins:
+          - DomainName: !GetAtt "S3Bucket.DomainName"
+            Id: s3origin
+            S3OriginConfig:
+              OriginAccessIdentity: !Sub "origin-access-identity/cloudfront/${CloudFrontOriginAccessIdentity}"
+        PriceClass: "PriceClass_All"

@@ -1,0 +1,135 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+body{
+  font-family: 'Poppins', sans-serif;
+  overflow-x: hidden;
+}
+
+.navbar{
+  background: whitesmoke;
+  height: 80px;
+  position: relative;
+}
+.navbar-brand{
+  font-size: 30px;
+  margin-top: 10px;
+  padding: 0px 20px;
+  font-weight: bold;
+}
+.navbar--right-items{
+  display: flex;
+}
+.navbar--right-items i{
+  top: 35%;
+  right: 7%;
+  position: absolute;
+  font-size: 22px;
+}
+.navbar--right-items .dropdown-section{
+  position: absolute!important;
+  top: 20%;
+  right: 2%;
+}
+.navbar--right-items .drop_down::after {
+  display:none;
+}
+.navbar--right-items .drop_down:focus{
+  color: #000;
+  box-shadow: none!important;
+}
+.navbar--right-items .drop_down{
+  border: none;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  font-size: 18px;
+  letter-spacing: 1px;
+  font-weight: 700;
+  color: #000;
+  text-align: center;
+  padding: 6px;
+}
+@media only screen and (max-width: 900px) {
+  .navbar--right-items i{
+    display: none;
+  }
+  .navbar--right-items .dropdown-section{
+    right: 4%;
+  }
+}
+
+
+
+
+
+.request--table{
+  padding: 30px;
+}
+.request--table article{
+  margin-bottom: 50px;
+}
+.request--table .request--text{
+  display: flex;
+  gap: 2em;
+}
+.request--table .request--text h2{
+  font-size: 20px!important;
+  cursor: pointer;
+}
+.request--table .request--text h2 .lists{
+  color: #333;
+}
+.request--table .request--text h2 .lists:hover{
+  color: orange!important;
+}
+.request--table .request--text h2 .list--color{
+  color: orange;
+}
+.request--table .create--leave{
+  display: flex;
+  gap: 1em;
+  flex-direction: row;
+  margin-top: -30px;
+  flex-wrap: wrap;
+  padding-left: 45px;
+}
+.request--table .create--leave input{
+  display: flex;
+  width: 200px;
+  height: 40px;
+}
+.request--table .create--leave label{
+  margin-bottom: 5px;
+}
+.request--table .create--leave button{
+  width: 50px;
+  height: 40px;
+  padding: 0%!important;
+  margin-top: 20px;
+  font-size: 18px;
+}
+@media only screen and (max-width: 900px) {
+  .request--table .create--leave{
+    margin-top: 30px;
+  }
+}
+
+
+.table--head tr{
+  background: gainsboro;
+  border-radius: 50%;
+}
+.table--head tr th:first-child{
+  border-top-left-radius: 15px!important;
+}
+.table--head tr th:last-child{
+  border-top-right-radius: 15px!important;
+}
+.table--head tr th{
+   font-weight: bolder;
+  padding: 30px 10px;
+  font-size: 15px;
+}
+.table--body tr td{
+  padding: 20px 0px;
+}

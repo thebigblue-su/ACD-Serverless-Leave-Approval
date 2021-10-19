@@ -1,0 +1,23 @@
+{
+  "stepfn": {
+    "leavesTaken": 21,
+    "from": "26 Oct",
+    "numberOfDays": 4,
+    "to": "30 Oct",
+    "email": "sandeep@antstack.io",
+    "reason": "Family Function 5",
+    "type": "requestLeave",
+    "approvalStatus": "Manual"
+  },
+  "direct":{
+    "type": "requestLeave",
+    "email": "sandeep@antstack.io",
+    "from": "20 Oct",
+    "to": "20 Oct",
+    "numberOfDays": 1,
+    "leavesTaken": 0,
+    "reason": "Family Function"
+  }
+}
+ 
+

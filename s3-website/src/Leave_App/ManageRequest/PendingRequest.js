@@ -1,0 +1,77 @@
+import Axios from 'axios';
+import React, { useContext } from 'react'
+import { GlobalContext } from '../Context';
+
+const PendingRequests = () => {
+  const { data, loading, get_user_info, token } = useContext(GlobalContext);
+  // const [loading, setLoading] = useState(false);
+
+
+
+  var item = JSON.parse(localStorage.getItem('users'))
+  var get_mail = item && item.email;
+  const approve_func = (val, token_data) => {
+    // console.log(val);
+    var url = 'https://scxe0v2q9j.execute-api.ap-south-1.amazonaws.com/Prod/manualApproval';
+    Axios({
+      method: 'POST',
+      url,
+      data: val,
+      headers: {
+        'Authorization': `${token_data}`,
+        'Content-Type': 'application/json'
+      }
+    }).then((el) => {
+      setTimeout(() => {
+        get_user_info(get_mail, token_data);
+      }, 1000);
+    }).catch((err) => {
+      console.log(err);
+    })
+  }
+
+
+  if (loading) {
+    return <section className="mt-5 text-center">
+      Loading...
+    </section>
+  }
+  return <section className="table-responsive mt-4">
+    <table className="table text-center table-borderless  table-hover">
+      <thead className="table--head">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Reason</th>
+          <th scope="col">Email</th>
+          <th scope="col">Form</th>
+          <th scope="col">To</th>
+          <th scope="col">No of Days</th>
+          <th scope="col">Type</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody className="table--body text-capitalize">
+        {
+          (data.pendingRequests && data.pendingRequests.length > 0) && data.pendingRequests.map((item, i) => {
+            const { from, to, numberOfDays, email, reason, type } = item;
+
+            return <tr key={i} style={{ fontSize: 16 }}>
+              <td>{i + 1}</td>
+              <td className="text-info font-weight-bold"><b>{reason}</b></td>
+              <td>{email}</td>
+              <td>{from}</td>
+              <td>{to}</td>
+              <td>{numberOfDays}</td>
+              <td>{type}</td>
+              <td>
+                <button className="btn btn-success" onClick={() => approve_func(item, token)}>Approve</button>
+              </td>
+            </tr>
+          })
+        }
+      </tbody>
+    </table>
+  </section >
+}
+
+export default PendingRequests
