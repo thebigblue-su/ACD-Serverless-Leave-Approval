@@ -23,7 +23,7 @@ jobs:
     
     runs-on: ubuntu-latest
     steps:
-        - run: ls home/runner/work/ACD-Serverless-Leave-Approval/
+        - run: ls ${{ github.workspace }}
         - run: yarn build --cwd ./s3-website
         - run: aws s3 sync ./s3-website/build s3://acd-test
 
