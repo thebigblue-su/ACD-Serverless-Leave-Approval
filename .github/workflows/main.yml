@@ -23,6 +23,6 @@ jobs:
     
     runs-on: ubuntu-latest
     steps:
-      - run: yarn build --cwd ${{ github.workspace }}/s3-website
+      - run: yarn --cwd ${{ github.workspace }}/s3-website build
       - run: aws s3 sync ./s3-website/build s3://acd-test
 
