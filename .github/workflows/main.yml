@@ -19,9 +19,12 @@ jobs:
       # sam deploy
       - run: sam deploy --no-confirm-changeset --no-fail-on-empty-changeset --stack-name acd-leave-app-stack  --capabilities CAPABILITY_IAM --region ap-south-1
 
+      - run: cd s3-website
+
       # build and deploy website
       - uses: borales/actions-yarn@v2.3.0
         with:
-          run: cd s3-website
-          run: build 
-          run: aws s3 sync build s3://acd-test
+          cmd: build
+
+      # push files to s3
+      - run: aws s3 sync build s3://acd-test
