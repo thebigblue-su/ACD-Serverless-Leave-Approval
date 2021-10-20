@@ -11,7 +11,7 @@ jobs:
         id: package
         uses: juliangruber/read-file-action@v1
         with:
-          path: ./parameters.json
+          path: ${{ github.workspace }}/parameters.json
       - name: Echo s3 bucket name
         run: echo "${{ steps.package.outputs.content.s3BucketName }}"
 
@@ -19,7 +19,7 @@ jobs:
       - name: get region
         uses: notiz-dev/github-action-json-property@release
         with:
-          path: "parameters.json"
+          path: "${{ github.workspace }}/parameters.json"
           prop_path: "s3BucketName"
       - run: echo ${{steps.version.outputs.prop}}
 
