@@ -23,12 +23,14 @@ jobs:
     
     runs-on: ubuntu-latest
     steps:
-      - working-directory: ./s3-website
+      
       - uses: actions/checkout@v2
       - uses: borales/actions-yarn@v2.3.0
         with:
           cmd: install 
       - uses: borales/actions-yarn@v2.3.0
+        env:
+            working_directory: ./s3-website
         with:
           cmd: build
       - run: aws s3 sync build s3://acd-test
