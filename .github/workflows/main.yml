@@ -25,6 +25,6 @@ jobs:
     steps:
         - uses: actions/checkout@v2
         - run: ls ${{ github.workspace }}
-        - run: yarn build --cwd ./s3-website
-        - run: aws s3 sync ./s3-website/build s3://acd-test
+        - run: yarn build --cwd ${{ github.workspace }}/s3-website
+        - run: aws s3 sync ${{ github.workspace }}/s3-website/build s3://acd-test
 
