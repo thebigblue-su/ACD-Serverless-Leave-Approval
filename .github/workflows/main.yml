@@ -13,11 +13,15 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ap-south-1
-      # sam build 
+          aws-region: us-east-1
       - run: sam build --use-container
 
-# Run Unit tests- Specify unit tests here 
+      # sam deploy
+      - run: sam deploy --no-confirm-changeset --no-fail-on-empty-changeset --stack-name acd-leave-app-stack  --capabilities CAPABILITY_IAM --region ap-south-1
 
-# sam deploy
-      - run: sam deploy --no-confirm-changeset --no-fail-on-empty-changeset --stack-name leave-app --s3-bucket sandy-ccd-test --capabilities CAPABILITY_IAM --region ap-south-1
+      # build and deploy website
+      - uses: borales/actions-yarn@v2.3.0
+        with:
+          cmd: cd s3-website
+          cmd: build 
+          cmd: aws s3 sync build s3://acd-test
