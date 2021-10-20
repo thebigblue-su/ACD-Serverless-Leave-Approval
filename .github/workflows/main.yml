@@ -3,8 +3,7 @@ on:
     branches:
       - main
 jobs:
-
- Init:
+  Init:
     runs-on: ubuntu-latest
     steps:
       - name: get region
@@ -13,7 +12,6 @@ jobs:
           path: "parameters.json"
           prop_path: "s3BucketName"
       - run: echo ${{steps.version.outputs.s3BucketName}}
-
   AWS-deployment:
     runs-on: ubuntu-latest
     steps:
@@ -30,7 +28,7 @@ jobs:
 
       # # sam deploy
       # - run: sam deploy --no-confirm-changeset --no-fail-on-empty-changeset --stack-name acd-leave-app-stack  --capabilities CAPABILITY_IAM --resolve-s3
-  
+
   # S3-Deployment:
   #   runs-on: ubuntu-latest
   #   steps:
@@ -47,4 +45,3 @@ jobs:
   #       - run: yarn --cwd ${{ github.workspace }}/s3-website install
   #       - run: yarn --cwd ${{ github.workspace }}/s3-website build
   #       - run: aws s3 sync ${{ github.workspace }}/s3-website/build s3://acd-test
-
