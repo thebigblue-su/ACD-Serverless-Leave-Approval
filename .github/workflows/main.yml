@@ -17,7 +17,7 @@ jobs:
       - run: sam build --use-container
 
       # sam deploy
-      - run: sam deploy --no-confirm-changeset --no-fail-on-empty-changeset --stack-name acd-leave-app-stack  --capabilities CAPABILITY_IAM
+      - run: sam deploy --no-confirm-changeset --no-fail-on-empty-changeset --stack-name acd-leave-app-stack  --capabilities CAPABILITY_IAM --resolve-s3
 
       - run: cd s3-website
 
