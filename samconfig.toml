@@ -5,5 +5,5 @@ version = 0.1
 stack_name = "sandy-leaveapproval-ACD"
 s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-ad3ixbr3ssv7"
 s3_prefix = "sandy-leaveapproval-ACD"
-region = "us-east-1"
+region = "us-east-1" 
 capabilities = "CAPABILITY_IAM"
