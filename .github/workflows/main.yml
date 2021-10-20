@@ -12,11 +12,11 @@ jobs:
         with:
           path: "parameters.json"
           prop_path: "s3BucketName"
-      - run: echo ${{steps.version.outputs.s3BucketName}}
+      - run: echo ${{steps.version.outputs.prop}}
   AWS-deployment:
     runs-on: ubuntu-latest
     steps:
-      - run: echo ${{steps.version.outputs.s3BucketName}}
+      - run: echo ${{steps.version.outputs.prop}}
       # - uses: actions/checkout@v2
       # - uses: actions/setup-python@v2
       # - uses: aws-actions/setup-sam@v1
