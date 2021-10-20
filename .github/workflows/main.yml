@@ -21,13 +21,10 @@ jobs:
 
   S3-Deployment:
     runs-on: ubuntu-latest
-    
     steps:
-      
       - uses: borales/actions-yarn@v2.3.0
         with:
-          working-directory: ./s3-website      
+          working-directory: ./s3-website
           cmd: build
-
       - run: aws s3 sync build s3://acd-test
         working-directory: ./s3-website
