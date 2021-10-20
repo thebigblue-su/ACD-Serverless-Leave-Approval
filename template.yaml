@@ -253,7 +253,7 @@ Resources:
   S3Bucket:
     Type: "AWS::S3::Bucket"
     Properties:
-      BucketName: acd-website-hosting
+      BucketName: acd-test
       WebsiteConfiguration:
         ErrorDocument: "error.html"
         IndexDocument: "index.html"
