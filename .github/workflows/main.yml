@@ -23,11 +23,10 @@ jobs:
     
     runs-on: ubuntu-latest
     steps:
-      
+    
       - uses: actions/checkout@v2
         env:
             working_directory: ./s3-website
-        with:
-          cmd: yarn build
+      - run: yarn build
       - run: aws s3 sync build s3://acd-test
 
