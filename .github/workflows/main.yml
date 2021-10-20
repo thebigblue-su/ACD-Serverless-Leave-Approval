@@ -22,6 +22,6 @@ jobs:
       # build and deploy website
       - uses: borales/actions-yarn@v2.3.0
         with:
-          cmd: cd s3-website
-          cmd: build 
-          cmd: aws s3 sync build s3://acd-test
+          run: cd s3-website
+          run: build 
+          run: aws s3 sync build s3://acd-test
