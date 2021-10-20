@@ -7,12 +7,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: get region
-        uses: notiz-dev/github-action-json-property@release
+      - name: Read package.json
+        id: package
+        uses: juliangruber/read-file-action@v1
         with:
-          path: "parameters.json"
-          prop_path: "s3BucketName"
-      - run: echo ${{steps.version.outputs.prop}}
+          path: ./parameters.json
+      - name: Echo package.json
+        run: echo "${{ steps.package.outputs.content }}"
+
+    # steps:
+    #   - uses: actions/checkout@v2
+    #   - name: get region
+    #     uses: notiz-dev/github-action-json-property@release
+    #     with:
+    #       path: "parameters.json"
+    #       prop_path: "s3BucketName"
+    #   - run: echo ${{steps.version.outputs.prop}}
+
   AWS-deployment:
     runs-on: ubuntu-latest
     steps:
