@@ -15,7 +15,6 @@ jobs:
       - name: Echo s3 bucket name
         run: echo "${{ steps.package.outputs.content.s3BucketName }}"
 
-    steps:
       - uses: actions/checkout@v2
       - name: get region
         uses: notiz-dev/github-action-json-property@release
