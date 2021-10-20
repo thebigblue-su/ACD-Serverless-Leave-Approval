@@ -13,15 +13,16 @@ jobs:
         with:
           path: ${{ github.workspace }}/parameters.json
       - name: Echo s3 bucket name
-        run: echo "${{ steps.package.outputs.content.s3BucketName }}"
+        run: echo "${{ steps.package.outputs.content }}"
 
       - uses: actions/checkout@v2
       - name: get region
+        id: s3BucketName
         uses: notiz-dev/github-action-json-property@release
         with:
           path: "${{ github.workspace }}/parameters.json"
           prop_path: "s3BucketName"
-      - run: echo ${{steps.version.outputs.prop}}
+      - run: echo ${{steps.s3BucketName.outputs.prop}}
 
   AWS-deployment:
     runs-on: ubuntu-latest
