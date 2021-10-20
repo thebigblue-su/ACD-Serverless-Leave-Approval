@@ -25,8 +25,8 @@ jobs:
     steps:
     
       - uses: actions/checkout@v2
-        env:
-            working_directory: ./s3-website
+      - run: cd ./s3-website
+      - run: ls
       - run: yarn build
       - run: aws s3 sync build s3://acd-test
 
