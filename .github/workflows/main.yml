@@ -3,26 +3,28 @@ on:
     branches:
       - main
 jobs:
-  AWS-deployment:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
-      - uses: aws-actions/setup-sam@v1
-      - uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1
-      - run: sam build --use-container
+  # AWS-deployment:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - uses: actions/setup-python@v2
+  #     - uses: aws-actions/setup-sam@v1
+  #     - uses: aws-actions/configure-aws-credentials@v1
+  #       with:
+  #         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  #         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  #         aws-region: us-east-1
+  #     - run: sam build --use-container
 
-      # sam deploy
-      - run: sam deploy --no-confirm-changeset --no-fail-on-empty-changeset --stack-name acd-leave-app-stack  --capabilities CAPABILITY_IAM --resolve-s3
+  #     # sam deploy
+  #     - run: sam deploy --no-confirm-changeset --no-fail-on-empty-changeset --stack-name acd-leave-app-stack  --capabilities CAPABILITY_IAM --resolve-s3
 
   S3-Deployment:
     runs-on: ubuntu-latest
     steps:
-      - run: yarn build
+      - uses: borales/actions-yarn@v2.3.0
+        with:
+          cmd: build
         working-directory: ./s3-website
 
       - run: aws s3 sync build s3://acd-test
