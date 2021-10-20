@@ -22,6 +22,7 @@ jobs:
   S3-Deployment:
     runs-on: ubuntu-latest
     steps:
+      - run: ls
       - uses: borales/actions-yarn@v2.3.0
         with:
           working-directory: ./s3-website
