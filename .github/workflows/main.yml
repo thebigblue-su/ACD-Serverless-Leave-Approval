@@ -23,7 +23,8 @@ jobs:
     
     runs-on: ubuntu-latest
     steps:
-      - working-directory: s3-website
-      - run: yarn build
-      - run: aws s3 sync ./s3-website/build s3://acd-test
+        - run: ls
+        - run: la
+        - run: yarn build
+        - run: aws s3 sync ./s3-website/build s3://acd-test
 
