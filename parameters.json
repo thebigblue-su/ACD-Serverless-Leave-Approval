@@ -1,0 +1,6 @@
+{
+    "s3BucketName":"acd-website-hosting",
+    "cognitoAuthDomain":"acdauthdomain",
+    "region":"us-east-1",
+    "stackName":"acd-leave-application-stack"
+}

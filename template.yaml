@@ -316,3 +316,8 @@ Resources:
             S3OriginConfig:
               OriginAccessIdentity: !Sub "origin-access-identity/cloudfront/${CloudFrontOriginAccessIdentity}"
         PriceClass: "PriceClass_All"
+Outputs:
+  CloudfrontUrl:
+    Value: !GetAtt CloudFrontDistribution.DomainName
+  APIDomain:
+    Value: !GetAtt LeaveApprovalApi.RootResourceId
