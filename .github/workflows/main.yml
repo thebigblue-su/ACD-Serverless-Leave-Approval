@@ -25,6 +25,6 @@ jobs:
     steps:
       
       - run: ls
-      - run: yarn --cwd ~/s3-website build
+      - run: yarn --cwd ~/work/ACD-Serverless-Leave-Approval/s3-website build
       - run: aws s3 sync ./s3-website/build s3://acd-test
 
