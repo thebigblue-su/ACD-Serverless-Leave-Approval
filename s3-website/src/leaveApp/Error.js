@@ -6,7 +6,7 @@ const Error = () => {
 
   return (
     <div className="text-center mt-5">
-      <h1>Error Page | Page Not Found </h1>
+      <h1>404 | Page Not Found </h1>
       <br />
       <button onClick={() => history.push("/")} className="btn btn-info">
         Go Home
