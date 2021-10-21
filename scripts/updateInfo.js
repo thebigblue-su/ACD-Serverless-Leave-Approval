@@ -21,7 +21,7 @@ cloudformation.describeStacks(
         output[param.OutputKey] = param.OutputValue;
       });
       fs.writeFile(
-        args[2] + "/s3-website/src/leaveApp/config2.json",
+        args[2] + "/s3-website/src/leaveApp/config.json",
         JSON.stringify(output, null, 4),
         (err) => {
           if (err) console.log(err);

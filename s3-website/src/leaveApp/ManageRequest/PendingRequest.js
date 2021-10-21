@@ -1,6 +1,7 @@
 import Axios from "axios";
 import React, { useContext } from "react";
 import { GlobalContext } from "../Context";
+import configData from "../config.json";
 
 const PendingRequests = () => {
   const { data, loading, get_user_info, token } = useContext(GlobalContext);
@@ -10,8 +11,7 @@ const PendingRequests = () => {
   var get_mail = item && item.email;
   const approve_func = (val, token_data) => {
     // console.log(val);
-    var url =
-      "https://scxe0v2q9j.execute-api.ap-south-1.amazonaws.com/Prod/manualApproval";
+    var url = `https://${configData.APIDomain}.execute-api.ap-south-1.amazonaws.com/Prod/manualApproval`;
     Axios({
       method: "POST",
       url,

@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import moment from "moment";
 import Axios from "axios";
 import { GlobalContext } from "./Context";
+import configData from "./config.json";
 
 const CreateRequest = () => {
   const { token, get_user_info } = useContext(GlobalContext);
@@ -35,8 +36,7 @@ const CreateRequest = () => {
         leavesTaken: 11,
         reason: value,
       };
-      const url =
-        "https://scxe0v2q9j.execute-api.ap-south-1.amazonaws.com/Prod/requestLeave";
+      const url = `https://${configData.APIDomain}.execute-api.ap-south-1.amazonaws.com/Prod/requestLeave`;
       Axios({
         method: "POST",
         url,

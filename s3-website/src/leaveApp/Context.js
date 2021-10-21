@@ -1,5 +1,6 @@
 import Axios from "axios";
 import React, { createContext, useEffect, useState } from "react";
+import configData from "./config.json";
 const GlobalContext = createContext();
 
 const Context = ({ children }) => {
@@ -19,8 +20,7 @@ const Context = ({ children }) => {
 
   const get_user_info = async (mail, token_data) => {
     setLoading(true);
-    const url =
-      "https://scxe0v2q9j.execute-api.ap-south-1.amazonaws.com/Prod/getUserInfo";
+    const url = `https://${configData.APIDomain}.execute-api.ap-south-1.amazonaws.com/Prod/getUserInfo`;
     Axios({
       method: "POST",
       url,

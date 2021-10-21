@@ -3,16 +3,11 @@ import React, { useEffect } from "react";
 import { useHistory } from "react-router";
 import jwt from "jsonwebtoken";
 import configData from "./config.json";
-import configData2 from "./config2.json";
 
 console.log(configData);
-console.log(configData.cognitoClient);
-
-console.log("THIS IS CONFIG DATA 2");
-console.log(configData2);
 
 const cognitoUrl =
-  `https://${configData.cognitoDomain}.auth.ap-south-1.amazoncognito.com/login?client_id=${configData.cognitoClient}&response_type=token&redirect_uri=${configData.cognitoRedirectUrl}`.toString();
+  `https://${configData.CognitoUserPoolDomain}.auth.ap-south-1.amazoncognito.com/login?client_id=${configData.CognitoClientId}&response_type=token&redirect_uri=https://${configData.CloudfrontUrl}`.toString();
 
 const Login = () => {
   const history = useHistory();
