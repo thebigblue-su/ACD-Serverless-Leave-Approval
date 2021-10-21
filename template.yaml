@@ -203,7 +203,7 @@ Resources:
           - !Sub
             - "'https://${CloudfrontDomain}'"
             - { CloudfrontDomain: !GetAtt CloudFrontDistribution.DomainName }
-        AllowHeaders: "'Content-type, x-api-key'"
+        AllowHeaders: "'Content-type, x-api-key, Authorization'"
       Auth:
         DefaultAuthorizer: CognitoAuthorizer
         Authorizers:
