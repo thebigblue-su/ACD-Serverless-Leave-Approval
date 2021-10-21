@@ -1,6 +1,17 @@
 AWSTemplateFormatVersion: "2010-09-09"
 Transform: AWS::Serverless-2016-10-31
 Description: "ACD Leave Approval Application"
+
+# Parameters Section
+Parameters:
+  CognitoUserPoolDomain:
+    Type: String
+    Description: Auth domain used in cognito to create the sign in / sign up links
+  S3BucketName:
+    Type: String
+    Description: Auth domain used in cognito to create the sign in / sign up links
+
+# Resources Section
 Resources:
   # cognito trigger
   CognitoTriggerPostSignup:
@@ -244,7 +255,7 @@ Resources:
   CognitoDomain:
     Type: AWS::Cognito::UserPoolDomain
     Properties:
-      Domain: acdleaveapproval
+      Domain: !Ref CognitoUserPoolDomain
       UserPoolId: !Ref CognitoUserPool
 
   #s3 bucket and hosting
@@ -253,7 +264,7 @@ Resources:
   S3Bucket:
     Type: "AWS::S3::Bucket"
     Properties:
-      BucketName: acd-test
+      BucketName: !Ref S3BucketName
       WebsiteConfiguration:
         ErrorDocument: "error.html"
         IndexDocument: "index.html"
@@ -316,6 +327,8 @@ Resources:
             S3OriginConfig:
               OriginAccessIdentity: !Sub "origin-access-identity/cloudfront/${CloudFrontOriginAccessIdentity}"
         PriceClass: "PriceClass_All"
+
+# Outputs Section
 Outputs:
   CloudfrontUrl:
     Value: !GetAtt CloudFrontDistribution.DomainName
