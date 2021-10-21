@@ -1,6 +1,6 @@
 {
     "CognitoUserPoolDomain":"acdauthdomain",
     "Region":"us-east-1",
-    "S3BucketName":"acd-website-hosting",
+    "S3BucketName":"acd-website-hosting-bucket",
     "StackName":"acd-leave-application-stack"
 }
