@@ -44,7 +44,6 @@ const CreateRequest = () => {
         headers: {
           Authorization: `${token}`,
           "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "*",
         },
       })
         .then((el) => {
