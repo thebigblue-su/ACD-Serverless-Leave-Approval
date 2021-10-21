@@ -198,9 +198,9 @@ Resources:
     Properties:
       StageName: Prod
       Cors:
-        AllowMethods: "'GET, POST, OPTIONS'"
+        AllowMethods: "'*'"
         AllowOrigin: "'*'"
-        AllowHeaders: "'Content-type, x-api-key, Authorization'"
+        AllowHeaders: "'*'"
       Auth:
         DefaultAuthorizer: CognitoAuthorizer
         Authorizers:
