@@ -34,8 +34,6 @@ jobs:
         with:
           path: "${{ github.workspace }}/parameters.json"
           prop_path: "CognitoUserPoolDomain"
-      - run: echo ${{steps.CognitoAuthDomain.outputs.prop}}
-      - run: echo ${{steps.Region.outputs.prop}}
 
       # AWS Config
       - uses: actions/setup-python@v2
@@ -50,7 +48,7 @@ jobs:
       - run: sam build --use-container
 
       #SAM Deploy
-      - run: sam deploy --stack-name ${{steps.StackName.outputs.prop}} --region ${{steps.Region.outputs.prop}} --parameter-overrides file://${{ github.workspace }}/parameters.json --no-confirm-changeset --no-fail-on-empty-changeset --capabilities CAPABILITY_IAM --resolve-s3
+      - run: sam deploy --stack-name ${{steps.StackName.outputs.prop}} --region ${{steps.Region.outputs.prop}} --parameter-overrides CognitoUserPoolDomain=${{steps.CognitoAuthDomain.outputs.prop}} S3BucketName=${{steps.S3BucketName.outputs.prop}}  --no-confirm-changeset --no-fail-on-empty-changeset --capabilities CAPABILITY_IAM --resolve-s3
 
   # S3-Deployment:
   #   runs-on: ubuntu-latest
