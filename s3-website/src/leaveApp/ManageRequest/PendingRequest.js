@@ -11,7 +11,7 @@ const PendingRequests = () => {
   var get_mail = item && item.email;
   const approve_func = (val, token_data) => {
     // console.log(val);
-    var url = `https://${configData.APIDomain}.execute-api.ap-south-1.amazonaws.com/Prod/manualApproval`;
+    var url = `https://${configData.APIDomain}.execute-api.${configData.Region}.amazonaws.com/Prod/manualApproval`;
     Axios({
       method: "POST",
       url,

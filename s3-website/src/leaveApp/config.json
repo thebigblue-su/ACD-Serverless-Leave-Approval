@@ -1,7 +1,8 @@
 {
-    "cognitoDomain":"acdleaveapproval",
-    "cognitoClient":"970g1b8h3a28f0ggkkfl06dau",
-    "cognitoRedirectUrl":"http://localhost:3000",
-    "apiId":"scxe0v2q9j",
-    "region":"us-east-1"
+    "APIDomain": "xt7csayd7g",
+    "CloudfrontUrl": "d3rdqa4u3m8ywb.cloudfront.net",
+    "CognitoClientId": "357mfeh5feve3eao5ds1lrsv7a",
+    "CognitoUserPoolDomain": "acdauthdomain",
+    "Region": "ap-east-1",
+    "S3BucketName": "acd-website"
 }

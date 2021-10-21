@@ -36,7 +36,7 @@ const CreateRequest = () => {
         leavesTaken: 11,
         reason: value,
       };
-      const url = `https://${configData.APIDomain}.execute-api.ap-south-1.amazonaws.com/Prod/requestLeave`;
+      const url = `https://${configData.APIDomain}.execute-api.${configData.Region}.amazonaws.com/Prod/requestLeave`;
       Axios({
         method: "POST",
         url,
