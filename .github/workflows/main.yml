@@ -6,28 +6,36 @@ jobs:
   Init:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Read package.json
-        id: package
-        uses: juliangruber/read-file-action@v1
-        with:
-          path: ${{ github.workspace }}/parameters.json
-      - name: Echo s3 bucket name
-        run: echo "${{ steps.package.outputs.content }}"
-
-      - uses: actions/checkout@v2
-      - name: get region
+      - name: s3BucketName
         id: s3BucketName
         uses: notiz-dev/github-action-json-property@release
         with:
           path: "${{ github.workspace }}/parameters.json"
           prop_path: "s3BucketName"
-      - run: echo ${{steps.s3BucketName.outputs.prop}}
+      - name: stackName
+        id: stackName
+        uses: notiz-dev/github-action-json-property@release
+        with:
+          path: "${{ github.workspace }}/parameters.json"
+          prop_path: "stackName"
+      - name: region
+        id: region
+        uses: notiz-dev/github-action-json-property@release
+        with:
+          path: "${{ github.workspace }}/parameters.json"
+          prop_path: "region"
+      - name: cognitoAuthDomain
+        id: cognitoAuthDomain
+        uses: notiz-dev/github-action-json-property@release
+        with:
+          path: "${{ github.workspace }}/parameters.json"
+          prop_path: "cognitoAuthDomain"
 
   AWS-deployment:
     runs-on: ubuntu-latest
     steps:
-      - run: echo ${{steps.version.outputs.prop}}
+      - run: echo ${{steps.cognitoAuthDomain.outputs.prop}}
+      - run: echo ${{steps.region.outputs.prop}}
       # - uses: actions/checkout@v2
       # - uses: actions/setup-python@v2
       # - uses: aws-actions/setup-sam@v1
