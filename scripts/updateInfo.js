@@ -1,3 +1,4 @@
+const args = process.argv;
 const AWS = require("aws-sdk");
 const cloudformation = new AWS.CloudFormation();
 const parameters = require("../parameters.json");
@@ -20,7 +21,7 @@ cloudformation.describeStacks(
         output[param.OutputKey] = param.OutputValue;
       });
       fs.writeFile(
-        "../s3-website/src/leaveApp/config2.json",
+        args[2] + "/s3-website/src/leaveApp/config2.json",
         JSON.stringify(output, null, 4),
         (err) => {
           if (err) console.log(err);
