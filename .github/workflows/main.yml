@@ -31,6 +31,8 @@ jobs:
         with:
           path: "${{ github.workspace }}/parameters.json"
           prop_path: "cognitoAuthDomain"
+      - run: echo ${{steps.cognitoAuthDomain.outputs.prop}}
+      - run: echo ${{steps.region.outputs.prop}}
 
   AWS-deployment:
     runs-on: ubuntu-latest
