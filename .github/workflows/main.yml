@@ -41,10 +41,10 @@ jobs:
           aws-region: ${{steps.Region.outputs.prop}}
 
       # SAM Build
-      # - run: sam build --use-container
+      - run: sam build --use-container
 
       # SAM Deploy
-      # - run: sam deploy --stack-name ${{steps.StackName.outputs.prop}} --region ${{steps.Region.outputs.prop}} --parameter-overrides CognitoUserPoolDomain=${{steps.CognitoAuthDomain.outputs.prop}} S3BucketName=${{steps.S3BucketName.outputs.prop}}  --no-confirm-changeset --no-fail-on-empty-changeset --capabilities CAPABILITY_IAM --resolve-s3
+      - run: sam deploy --stack-name ${{steps.StackName.outputs.prop}} --region ${{steps.Region.outputs.prop}} --parameter-overrides CognitoUserPoolDomain=${{steps.CognitoAuthDomain.outputs.prop}} S3BucketName=${{steps.S3BucketName.outputs.prop}}  --no-confirm-changeset --no-fail-on-empty-changeset --capabilities CAPABILITY_IAM --resolve-s3
 
       # Describe CF and get output
       - run: npm install -C scripts/
