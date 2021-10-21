@@ -244,9 +244,13 @@ Resources:
         - aws.cognito.signin.user.admin
         - profile
       CallbackURLs:
-        - !GetAtt CloudFrontDistribution.DomainName
+        - !Sub
+          - https://${CloudfrontDomain}
+          - { CloudfrontDomain: !GetAtt CloudFrontDistribution.DomainName }
       LogoutURLs:
-        - !GetAtt CloudFrontDistribution.DomainName
+        - !Sub
+          - https://${CloudfrontDomain}
+          - { CloudfrontDomain: !GetAtt CloudFrontDistribution.DomainName }
       ExplicitAuthFlows:
         - ALLOW_USER_PASSWORD_AUTH
         - ALLOW_REFRESH_TOKEN_AUTH
