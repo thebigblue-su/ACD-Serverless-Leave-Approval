@@ -13,10 +13,10 @@ cloudformation.describeStacks(
       console.log(data);
       let output = {};
 
-      response.Stacks[0].Parameters.forEach((param) => {
+      data.Stacks[0].Parameters.forEach((param) => {
         output[param.ParameterKey] = param.ParameterValue;
       });
-      response.Stacks[0].Outputs.forEach((param) => {
+      data.Stacks[0].Outputs.forEach((param) => {
         output[param.OutputKey] = param.OutputValue;
       });
       fs.writeFile(

@@ -49,7 +49,6 @@ jobs:
       # Describe CF and get output
       - run: npm install -C scripts/
       - run: node scripts/updateInfo.js
-      - run: python scripts/test.py
 
       # Build and Sync S#
       - run: yarn --cwd ${{ github.workspace }}/s3-website install
