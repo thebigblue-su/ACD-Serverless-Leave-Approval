@@ -27,6 +27,7 @@ const getPendingRequests = async () => {
 
 exports.lambdaHandler = async (event, context) => {
   console.log(event);
+  event = JSON.parse(event.body);
   try {
     let response;
     response = await getUserInfo(event.email);

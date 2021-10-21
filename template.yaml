@@ -197,7 +197,13 @@ Resources:
     Type: AWS::Serverless::Api
     Properties:
       StageName: Prod
-      Cors: "'*'"
+      Cors:
+        AllowMethods: "'GET, POST, OPTIONS'"
+        AllowOrigin:
+          - !Sub
+            - "'https://${CloudfrontDomain}'"
+            - { CloudfrontDomain: !GetAtt CloudFrontDistribution.DomainName }
+        AllowHeaders: "'Content-type, x-api-key'"
       Auth:
         DefaultAuthorizer: CognitoAuthorizer
         Authorizers:
