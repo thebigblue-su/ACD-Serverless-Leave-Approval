@@ -196,7 +196,7 @@ Resources:
   LeaveApprovalApi:
     Type: AWS::Serverless::Api
     Properties:
-      StageName: Prod
+      StageName: prod
       Cors:
         AllowMethods: "'*'"
         AllowOrigin: "'*'"

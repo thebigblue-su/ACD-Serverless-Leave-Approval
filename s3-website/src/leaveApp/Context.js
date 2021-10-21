@@ -20,7 +20,7 @@ const Context = ({ children }) => {
 
   const get_user_info = async (mail, token_data) => {
     setLoading(true);
-    const url = `https://${configData.APIDomain}.execute-api.${configData.Region}.amazonaws.com/Prod/getUserInfo`;
+    const url = `https://${configData.APIDomain}.execute-api.${configData.Region}.amazonaws.com/prod/getUserInfo`;
     Axios({
       method: "POST",
       url,
