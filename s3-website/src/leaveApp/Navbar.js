@@ -15,7 +15,7 @@ const Navbar = () => {
       <div className="container-fluid">
         <p className="navbar-brand">
           <Link to="/pending-request" className="text-dark">
-            Leave
+            Leave Apporval Application
           </Link>
         </p>
         {loc.pathname !== "/" ? (
