@@ -12,7 +12,9 @@ cloudformation.describeStacks(
     if (err) console.log(err, err.stack);
     else {
       console.log(data);
-      let output = {};
+      let output = {
+        Region: parameters.Region,
+      };
 
       data.Stacks[0].Parameters.forEach((param) => {
         output[param.ParameterKey] = param.ParameterValue;
