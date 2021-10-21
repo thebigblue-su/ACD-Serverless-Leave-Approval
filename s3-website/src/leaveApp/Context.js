@@ -20,21 +20,42 @@ const Context = ({ children }) => {
 
   const get_user_info = async (mail, token_data) => {
     setLoading(true);
-    const url = `https://${configData.APIDomain}.execute-api.${configData.Region}.amazonaws.com/prod/getUserInfo`;
-    Axios({
-      method: "POST",
-      url,
-      data: { email: mail },
-      headers: {
-        Authorization: `${token_data}`,
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*",
-      },
-    }).then((el) => {
-      setLoading(false);
-      if (el.data) setData(el.data);
-      else setData([]);
-    });
+    // const url = `https://${configData.APIDomain}.execute-api.${configData.Region}.amazonaws.com/prod/getUserInfo`;
+    // Axios({
+    //   method: "POST",
+    //   url,
+    //   data: { email: mail },
+    //   headers: {
+    //     Authorization: `${token_data}`,
+    //     "Content-Type": "application/json",
+    //     "Access-Control-Allow-Origin": "*",
+    //   },
+    // }).then((el) => {
+    //   setLoading(false);
+    //   if (el.data) setData(el.data);
+    //   else setData([]);
+    // });
+    fetch(
+      `https://${configData.APIDomain}.execute-api.${configData.Region}.amazonaws.com/production/getUserInfo`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `${token}`,
+        },
+        body: JSON.stringify({ email: mail }),
+      }
+    )
+      .then((response) => response.json())
+      .then((el) => {
+        console.log("Success:", data);
+        setLoading(false);
+        if (el.data) setData(el.data);
+        else setData([]);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   useEffect(() => {

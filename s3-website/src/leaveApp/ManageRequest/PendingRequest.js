@@ -11,24 +11,45 @@ const PendingRequests = () => {
   var get_mail = item && item.email;
   const approve_func = (val, token_data) => {
     // console.log(val);
-    var url = `https://${configData.APIDomain}.execute-api.${configData.Region}.amazonaws.com/prod/manualApproval`;
-    Axios({
-      method: "POST",
-      url,
-      data: val,
-      headers: {
-        Authorization: `${token_data}`,
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*",
-      },
-    })
+    // var url = `https://${configData.APIDomain}.execute-api.${configData.Region}.amazonaws.com/prod/manualApproval`;
+    // Axios({
+    //   method: "POST",
+    //   url,
+    //   data: val,
+    //   headers: {
+    //     Authorization: `${token_data}`,
+    //     "Content-Type": "application/json",
+    //     "Access-Control-Allow-Origin": "*",
+    //   },
+    // })
+    //   .then((el) => {
+    //     setTimeout(() => {
+    //       get_user_info(get_mail, token_data);
+    //     }, 1000);
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
+    fetch(
+      `https://${configData.APIDomain}.execute-api.${configData.Region}.amazonaws.com/production/manualApproval`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `${token}`,
+        },
+        body: JSON.stringify(val),
+      }
+    )
+      .then((response) => response.json())
       .then((el) => {
+        console.log("Success:", data);
         setTimeout(() => {
           get_user_info(get_mail, token_data);
         }, 1000);
       })
-      .catch((err) => {
-        console.log(err);
+      .catch((error) => {
+        console.log(error);
       });
   };
 
