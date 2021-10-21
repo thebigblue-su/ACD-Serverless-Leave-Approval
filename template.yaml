@@ -244,9 +244,9 @@ Resources:
         - aws.cognito.signin.user.admin
         - profile
       CallbackURLs:
-        - http://localhost:3000
+        - !GetAtt CloudFrontDistribution.DomainName
       LogoutURLs:
-        - http://localhost:3000
+        - !GetAtt CloudFrontDistribution.DomainName
       ExplicitAuthFlows:
         - ALLOW_USER_PASSWORD_AUTH
         - ALLOW_REFRESH_TOKEN_AUTH
@@ -334,3 +334,5 @@ Outputs:
     Value: !GetAtt CloudFrontDistribution.DomainName
   APIDomain:
     Value: !GetAtt LeaveApprovalApi.RootResourceId
+  CognitoClientId:
+    Value: !Ref CognitoUserPoolClient

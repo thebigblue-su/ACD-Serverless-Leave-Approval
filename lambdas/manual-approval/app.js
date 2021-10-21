@@ -1,5 +1,4 @@
 const AWS = require("aws-sdk");
-AWS.config.update({ region: "ap-south-1" });
 const stepfunctions = new AWS.StepFunctions();
 const ddb = new AWS.DynamoDB.DocumentClient();
 

@@ -1,6 +1,5 @@
 // DynamoDB Connection
 const AWS = require("aws-sdk");
-AWS.config.update({ region: "ap-south-1" });
 const ddb = new AWS.DynamoDB.DocumentClient();
 
 // DynamoDB Tables

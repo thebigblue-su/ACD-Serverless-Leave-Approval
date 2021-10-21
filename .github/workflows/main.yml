@@ -10,26 +10,22 @@ jobs:
       - uses: actions/checkout@v2
 
       # Variable declaration
-      - name: S3BucketName
-        id: S3BucketName
+      - id: S3BucketName
         uses: notiz-dev/github-action-json-property@release
         with:
           path: "${{ github.workspace }}/parameters.json"
           prop_path: "S3BucketName"
-      - name: StackName
-        id: StackName
+      - id: StackName
         uses: notiz-dev/github-action-json-property@release
         with:
           path: "${{ github.workspace }}/parameters.json"
           prop_path: "StackName"
-      - name: Region
-        id: Region
+      - id: Region
         uses: notiz-dev/github-action-json-property@release
         with:
           path: "${{ github.workspace }}/parameters.json"
           prop_path: "Region"
-      - name: CognitoUserPoolDomain
-        id: CognitoAuthDomain
+      - id: CognitoAuthDomain
         uses: notiz-dev/github-action-json-property@release
         with:
           path: "${{ github.workspace }}/parameters.json"
@@ -47,22 +43,12 @@ jobs:
       # SAM Build
       - run: sam build --use-container
 
-      #SAM Deploy
+      # SAM Deploy
       - run: sam deploy --stack-name ${{steps.StackName.outputs.prop}} --region ${{steps.Region.outputs.prop}} --parameter-overrides CognitoUserPoolDomain=${{steps.CognitoAuthDomain.outputs.prop}} S3BucketName=${{steps.S3BucketName.outputs.prop}}  --no-confirm-changeset --no-fail-on-empty-changeset --capabilities CAPABILITY_IAM --resolve-s3
 
-  # S3-Deployment:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #       - uses: actions/checkout@v2
-  #       - uses: actions/setup-python@v2
-  #       - uses: aws-actions/setup-sam@v1
-  #       - uses: aws-actions/configure-aws-credentials@v1
-  #         with:
-  #           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-  #           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-  #           aws-region: us-east-1
-  #       - run: sam build --use-container
-  #       - run: ls ${{ github.workspace }}
-  #       - run: yarn --cwd ${{ github.workspace }}/s3-website install
-  #       - run: yarn --cwd ${{ github.workspace }}/s3-website build
-  #       - run: aws s3 sync ${{ github.workspace }}/s3-website/build s3://acd-test
+      # Describe CF and get output
+      - run: node scripts/updateInfo.js
+
+      # Build and Sync S#
+      - run: yarn --cwd ${{ github.workspace }}/s3-website install
+      - run: yarn --cwd ${{ github.workspace }}/s3-website build
