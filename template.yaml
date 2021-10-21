@@ -199,10 +199,7 @@ Resources:
       StageName: Prod
       Cors:
         AllowMethods: "'GET, POST, OPTIONS'"
-        AllowOrigin:
-          - !Sub
-            - "'https://${CloudfrontDomain}'"
-            - { CloudfrontDomain: !GetAtt CloudFrontDistribution.DomainName }
+        AllowOrigin: "'*'"
         AllowHeaders: "'Content-type, x-api-key, Authorization'"
       Auth:
         DefaultAuthorizer: CognitoAuthorizer
