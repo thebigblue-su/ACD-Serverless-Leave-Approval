@@ -29,13 +29,17 @@ exports.lambdaHandler = async (event, context) => {
   console.log(event);
   try {
     let response;
-
     response = await getUserInfo(event.email);
     response.pendingRequests = await getPendingRequests();
-
-    return response;
+    return {
+      statusCode: 200,
+      body: JSON.stringify(response),
+    };
   } catch (err) {
     console.log(err);
-    return err;
+    return {
+      statusCode: 400,
+      body: JSON.stringify(err),
+    };
   }
 };
