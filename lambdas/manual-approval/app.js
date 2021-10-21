@@ -31,8 +31,7 @@ const approveLeave = async (leaveData) => {
 
 exports.lambdaHandler = async (event) => {
   console.log(event);
-
+  event = JSON.parse(event.body);
   await approveLeave(event);
-
-  return { statusCode: 200 };
+  return { statusCode: 200, body: JSON.stringify({ Success: "true" }) };
 };

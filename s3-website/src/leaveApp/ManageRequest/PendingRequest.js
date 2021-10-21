@@ -19,6 +19,7 @@ const PendingRequests = () => {
       headers: {
         Authorization: `${token_data}`,
         "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
       },
     })
       .then((el) => {
