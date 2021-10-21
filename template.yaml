@@ -203,7 +203,7 @@ Resources:
         AllowHeaders: "'*'"
       Auth:
         AddDefaultAuthorizerToCorsPreflight: false
-        # DefaultAuthorizer: CognitoAuthorizer
+        DefaultAuthorizer: CognitoAuthorizer
         Authorizers:
           CognitoAuthorizer:
             UserPoolArn: !GetAtt CognitoUserPool.Arn
