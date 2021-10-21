@@ -225,7 +225,16 @@ Resources:
           Name: email
           Required: true
       LambdaConfig:
-        PostConfirmation: !GetAtt WaitForTaskToken.Arn
+        PostConfirmation: !GetAtt CognitoTriggerPostSignup.Arn
+  
+  # Permission for Cognito User Pool to trigger Lambda
+  CognitoTriggerPostSignupPermission:
+    Type: AWS::Lambda::Permission
+      Properties: 
+        Action: lambda:InvokeFunction
+        FunctionName: !GetAtt CognitoTriggerPostSignup.Arn
+        Principal: cognito-idp.amazonaws.com
+        SourceArn: !GetAtt CognitoUserPool.Arn
 
   #cognito pool client
   CognitoUserPoolClient:
