@@ -248,10 +248,11 @@ Resources:
       AllowedOAuthFlows:
         - implicit
       AllowedOAuthScopes:
+        - phone
         - email
         - openid
-        - aws.cognito.signin.user.admin
         - profile
+        - aws.cognito.signin.user.admin
       CallbackURLs:
         - !Sub
           - https://${CloudfrontDomain}
@@ -346,6 +347,6 @@ Outputs:
   CloudfrontUrl:
     Value: !GetAtt CloudFrontDistribution.DomainName
   APIDomain:
-    Value: !GetAtt LeaveApprovalApi.RootResourceId
+    Value: !Ref LeaveApprovalApi
   CognitoClientId:
     Value: !Ref CognitoUserPoolClient
