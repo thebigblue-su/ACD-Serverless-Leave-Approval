@@ -53,3 +53,4 @@ jobs:
       # Build and Sync S#
       - run: yarn --cwd ${{ github.workspace }}/s3-website install
       - run: yarn --cwd ${{ github.workspace }}/s3-website build
+      - run: aws s3 sync ${{ github.workspace }}/s3-website/build s3://${{steps.S3BucketName.outputs.prop}}
