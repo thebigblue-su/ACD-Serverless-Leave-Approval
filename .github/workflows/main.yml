@@ -3,7 +3,7 @@ on:
     branches:
       - main
 jobs:
-  Build / Deploy:
+  Build and Deploy:
     runs-on: ubuntu-latest
     steps:
       # Init
