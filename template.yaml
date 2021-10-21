@@ -23,8 +23,8 @@ Resources:
       Runtime: nodejs14.x
       Environment:
         Variables:
-          LeaveTable: !Ref LeaveTable
-          UserInfoTable: !Ref UserInfoTable
+          leavesTable: !Ref LeaveTable
+          userinfoTable: !Ref UserInfoTable
       Policies:
         - AWSLambdaDynamoDBExecutionRole
         - DynamoDBCrudPolicy:
@@ -42,8 +42,8 @@ Resources:
       Runtime: nodejs14.x
       Environment:
         Variables:
-          LeaveTable: !Ref LeaveTable
-          UserInfoTable: !Ref UserInfoTable
+          leavesTable: !Ref LeaveTable
+          userinfoTable: !Ref UserInfoTable
       Policies:
         - AWSLambdaDynamoDBExecutionRole
         - DynamoDBCrudPolicy:
@@ -68,8 +68,8 @@ Resources:
       Runtime: nodejs14.x
       Environment:
         Variables:
-          LeaveTable: !Ref LeaveTable
-          UserInfoTable: !Ref UserInfoTable
+          leavesTable: !Ref LeaveTable
+          userinfoTable: !Ref UserInfoTable
       Policies:
         - AWSLambdaDynamoDBExecutionRole
         - DynamoDBCrudPolicy:
@@ -100,8 +100,8 @@ Resources:
       Runtime: nodejs14.x
       Environment:
         Variables:
-          LeaveTable: !Ref LeaveTable
-          UserInfoTable: !Ref UserInfoTable
+          leavesTable: !Ref LeaveTable
+          userinfoTable: !Ref UserInfoTable
       Policies:
         - AWSLambdaDynamoDBExecutionRole
         - DynamoDBCrudPolicy:
@@ -119,8 +119,8 @@ Resources:
       Runtime: nodejs14.x
       Environment:
         Variables:
-          LeaveTable: !Ref LeaveTable
-          UserInfoTable: !Ref UserInfoTable
+          leavesTable: !Ref LeaveTable
+          userinfoTable: !Ref UserInfoTable
       Policies:
         - AWSLambdaDynamoDBExecutionRole
         - DynamoDBCrudPolicy:

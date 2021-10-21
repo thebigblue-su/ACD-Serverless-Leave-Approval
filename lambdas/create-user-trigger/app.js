@@ -3,8 +3,8 @@ const AWS = require("aws-sdk");
 const ddb = new AWS.DynamoDB.DocumentClient();
 
 // DynamoDB Tables
-const leavesTable = "LeaveTable";
-const userinfoTable = "UserInfoTable";
+const leavesTable = process.env.leavesTable;
+const userinfoTable = process.env.userinfoTable;
 
 // createUserInfo for first time users
 const createUserInfo = async (userInfo) => {

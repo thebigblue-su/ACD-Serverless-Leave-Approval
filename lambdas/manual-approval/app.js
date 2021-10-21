@@ -3,8 +3,8 @@ const stepfunctions = new AWS.StepFunctions();
 const ddb = new AWS.DynamoDB.DocumentClient();
 
 // DynamoDB Tables
-const leavesTable = "LeaveTable";
-const userinfoTable = "UserInfoTable";
+const leavesTable = process.env.leavesTable;
+const userinfoTable = process.env.userinfoTable;
 
 const approveLeave = async (leaveData) => {
   let token = leaveData.token;

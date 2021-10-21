@@ -7,7 +7,7 @@ import configData from "./config.json";
 console.log(configData);
 
 const cognitoUrl =
-  `https://${configData.CognitoUserPoolDomain}.auth.ap-south-1.amazoncognito.com/login?client_id=${configData.CognitoClientId}&response_type=token&redirect_uri=https://${configData.CloudfrontUrl}`.toString();
+  `https://${configData.CognitoUserPoolDomain}.auth.${configData.Region}.amazoncognito.com/login?client_id=${configData.CognitoClientId}&response_type=token&redirect_uri=https://${configData.CloudfrontUrl}`.toString();
 
 const Login = () => {
   const history = useHistory();
