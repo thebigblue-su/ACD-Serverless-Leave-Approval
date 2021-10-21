@@ -1,4 +1,4 @@
-import Axios from "axios";
+// import Axios from "axios";
 import React, { createContext, useEffect, useState } from "react";
 import configData from "./config.json";
 const GlobalContext = createContext();
@@ -41,7 +41,7 @@ const Context = ({ children }) => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `${token}`,
+          Authorization: `${token_data}`,
         },
         body: JSON.stringify({ email: mail }),
       }
@@ -63,7 +63,7 @@ const Context = ({ children }) => {
     if (get_mail && token) {
       get_user_info(get_mail, token);
     }
-  }, [get_mail, token]);
+  });
 
   const removeTokens = () => {
     localStorage.removeItem("tokens");

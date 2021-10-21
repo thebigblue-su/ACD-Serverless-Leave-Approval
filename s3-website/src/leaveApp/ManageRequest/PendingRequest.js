@@ -1,4 +1,4 @@
-import Axios from "axios";
+// import Axios from "axios";
 import React, { useContext } from "react";
 import { GlobalContext } from "../Context";
 import configData from "../config.json";

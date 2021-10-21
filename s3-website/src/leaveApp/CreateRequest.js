@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import moment from "moment";
-import Axios from "axios";
+// import Axios from "axios";
 import { GlobalContext } from "./Context";
 import configData from "./config.json";
 
