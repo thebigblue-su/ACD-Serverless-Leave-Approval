@@ -27,6 +27,14 @@ cloudformation.describeStacks(
           if (err) console.log(err);
         }
       );
+      fs.readFile(
+        args[2] + "/s3-website/src/leaveApp/config2.json",
+        "utf8",
+        function (err, data) {
+          // Display the file content
+          console.log(data);
+        }
+      );
     }
   }
 );
