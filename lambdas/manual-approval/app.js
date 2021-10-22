@@ -33,5 +33,13 @@ exports.lambdaHandler = async (event) => {
   console.log(event);
   event = JSON.parse(event.body);
   await approveLeave(event);
-  return { statusCode: 200, body: JSON.stringify({ Success: "true" }) };
+  return {
+    statusCode: 200,
+    body: JSON.stringify({ Success: "true" }),
+    headers: {
+      "Access-Control-Allow-Headers": "Content-Type",
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
+    },
+  };
 };

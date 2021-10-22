@@ -289,6 +289,10 @@ Resources:
                   content: {}
                 "200":
                   description: "200 response"
+                  headers:
+                    Access-Control-Allow-Origin:
+                      schema:
+                        type: "string"
                   content: {}
               security:
                 - CognitoAuthorizer: []
@@ -299,6 +303,8 @@ Resources:
                 responses:
                   "200":
                     statusCode: "200"
+                    responseParameters:
+                      method.response.header.Access-Control-Allow-Origin: "'*'"
                   "400":
                     statusCode: "400"
                 requestTemplates:

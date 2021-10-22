@@ -35,12 +35,22 @@ exports.lambdaHandler = async (event, context) => {
     return {
       statusCode: 200,
       body: JSON.stringify(response),
+      headers: {
+        "Access-Control-Allow-Headers": "Content-Type",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
+      },
     };
   } catch (err) {
     console.log(err);
     return {
       statusCode: 400,
       body: JSON.stringify(err),
+      headers: {
+        "Access-Control-Allow-Headers": "Content-Type",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
+      },
     };
   }
 };
