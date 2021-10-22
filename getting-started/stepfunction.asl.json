@@ -1,0 +1,59 @@
+{
+  "Comment": "Step Function",
+  "StartAt": "Lambda1",
+  "States": {
+    "Lambda1": {
+      "Type": "Task",
+      "Resource": "${lambda1Arn}",
+      "Next": "ChoiceState",
+      "Catch": [
+        {
+          "ErrorEquals": ["States.ALL"],
+          "Next": "FallbackLambda"
+        }
+      ]
+    },
+    "ChoiceState": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.foo",
+          "NumericEquals": 2,
+          "Next": "Lambda2"
+        },
+        {
+          "Variable": "$.foo",
+          "NumericEquals": 3,
+          "Next": "Lambda3"
+        }
+      ]
+    },
+    "Lambda2": {
+      "Type": "Task",
+      "Resource": "${lambda2Arn}",
+      "Catch": [
+        {
+          "ErrorEquals": ["States.ALL"],
+          "Next": "FallbackLambda"
+        }
+      ],
+      "End": true
+    },
+    "Lambda3": {
+      "Type": "Task",
+      "Resource": "${lambda3Arn}",
+      "Catch": [
+        {
+          "ErrorEquals": ["States.ALL"],
+          "Next": "FallbackLambda"
+        }
+      ],
+      "End": true
+    },
+    "FallbackLambda": {
+      "Type": "Task",
+      "Resource": "${lambda4Arn}",
+      "End": true
+    }
+  }
+}
