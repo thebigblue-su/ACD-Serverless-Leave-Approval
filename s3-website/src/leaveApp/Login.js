@@ -36,10 +36,15 @@ const Login = () => {
     <div className="text-center">
       <button
         className="btn"
-        style={{ fontSize: 30, marginTop: "15%", textTransform: "capitalize" }}
+        style={{
+          fontSize: 30,
+          marginTop: "17%",
+          textTransform: "capitalize",
+          height: "100px",
+        }}
       >
         <a className="text-dark" href={cognitoUrl}>
-          Login here
+          Click here to login
         </a>
       </button>
     </div>
