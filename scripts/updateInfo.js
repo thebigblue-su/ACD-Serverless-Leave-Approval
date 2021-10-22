@@ -38,29 +38,14 @@ cloudformation.describeStacks(
           console.log(data);
           console.log(output);
           // cors
-          apigatewayv2.updateApi(
-            {
-              ApiId: output.APIDomain,
-              CorsConfiguration: {
-                AllowCredentials: true,
-                AllowHeaders: ["'*'"],
-                AllowMethods: ["'*'"],
-                AllowOrigins: ["'https://" + output.CloudfrontUrl + "'"],
-              },
-            },
-            function (err, data) {
-              if (err) console.log(err, err.stack);
-              else console.log(data);
-              var params = {
-                ApiId: output.APIDomain,
-                StageName: "prod",
-              };
-              apigatewayv2.createDeployment(params, function (err, data) {
-                if (err) console.log(err, err.stack);
-                else console.log(data);
-              });
-            }
-          );
+          var params = {
+            resourceId: "tupvzlq6mb",
+            restApiId: output.APIDomain,
+          };
+          apigateway.getResource(params, function (err, data) {
+            if (err) console.log(err, err.stack);
+            else console.log(data); // successful response
+          });
         }
       );
     }
