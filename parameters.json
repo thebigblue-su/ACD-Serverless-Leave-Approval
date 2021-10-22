@@ -1,6 +1,6 @@
 {
-    "CognitoUserPoolDomain":"3re45authdomain",
+    "CognitoUserPoolDomain":"demolaauthdomain",
     "Region":"ap-south-1",
-    "S3BucketName":"3re45acd-la-website-hosting-bucket",
-    "StackName":"3re45acd-la-leave-application-stack"
+    "S3BucketName":"demo-acd-la-website-hosting-bucket",
+    "StackName":"demo-acd--la-leave-application-stack"
 }
