@@ -1,0 +1,7 @@
+https://acd-serverless-leave-approval-videos.s3.ap-south-1.amazonaws.com/1-dynamodb.mov
+https://acd-serverless-leave-approval-videos.s3.ap-south-1.amazonaws.com/2-lambda_iam.mov
+https://acd-serverless-leave-approval-videos.s3.ap-south-1.amazonaws.com/3-apigateway.mov
+https://acd-serverless-leave-approval-videos.s3.ap-south-1.amazonaws.com/4-stepfunction.mov
+https://acd-serverless-leave-approval-videos.s3.ap-south-1.amazonaws.com/5-cognito.mov
+https://acd-serverless-leave-approval-videos.s3.ap-south-1.amazonaws.com/6-s3hosting.mov
+https://acd-serverless-leave-approval-videos.s3.ap-south-1.amazonaws.com/7-cloudfront.mov
