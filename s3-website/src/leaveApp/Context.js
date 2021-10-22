@@ -41,7 +41,7 @@ const Context = ({ children }) => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `${token_data}`,
+          Authorization: `${token}`,
         },
         body: JSON.stringify({ email: mail }),
       }
@@ -63,7 +63,8 @@ const Context = ({ children }) => {
     if (get_mail && token) {
       get_user_info(get_mail, token);
     }
-  });
+    // eslint-disable-next-line
+  }, [get_mail, token]);
 
   const removeTokens = () => {
     localStorage.removeItem("tokens");
