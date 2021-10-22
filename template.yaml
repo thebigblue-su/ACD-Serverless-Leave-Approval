@@ -196,21 +196,47 @@ Resources:
   LeaveApprovalApi:
     Type: AWS::Serverless::Api
     Properties:
-      StageName: prod
-      Cors:
-        AllowMethods: "'*'"
-        AllowOrigin:
-          - !Sub
-            - "'https://${CloudfrontDomain}'"
-            - { CloudfrontDomain: !GetAtt CloudFrontDistribution.DomainName }
-        AllowHeaders: "'*'"
-      Auth:
-        AddDefaultAuthorizerToCorsPreflight: false
-        DefaultAuthorizer: CognitoAuthorizer
-        Authorizers:
-          CognitoAuthorizer:
-            UserPoolArn: !GetAtt CognitoUserPool.Arn
+      Name: !Sub "LeaveApprovalApi"
+      StageName: UAT
+      DefinitionBody:
+        Fn::Transform:
+          Name: AWS::Include
+          Parameters:
+            Location: apigateway/openapi3.yaml
 
+  #api role
+  LeaveApprovalApiRole:
+    Type: AWS::IAM::Role
+    Properties:
+      ManagedPolicyArns:
+        - >-
+          arn:aws:iam::aws:policy/service-role/AmazonAPIGatewayPushToCloudWatchLogs
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - apigateway.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      Path: /
+      Policies:
+        - PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action: states:StartExecution
+                Resource:
+                  - Ref: LeaveApplicationStepFunction
+          PolicyName: StepFunctionSyncExecution
+        - PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action: lambda:InvokeFunction
+                Resource: !Sub "arn:aws:lambda:*:${AWS::AccountId}:function:*"
+          PolicyName: LambdaFunctionInvocation
   #cognito pool
   CognitoUserPool:
     Type: AWS::Cognito::UserPool
