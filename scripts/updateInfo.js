@@ -1,7 +1,7 @@
 const args = process.argv;
 const AWS = require("aws-sdk");
 const cloudformation = new AWS.CloudFormation();
-const apigateway = new AWS.ApiGatewayV2();
+const apigateway = new AWS.APIGateway();
 const parameters = require("../parameters.json");
 const fs = require("fs");
 
