@@ -46,11 +46,11 @@ jobs:
       # SAM Deploy
       - run: sam deploy --stack-name ${{steps.StackName.outputs.prop}} --region ${{steps.Region.outputs.prop}} --parameter-overrides CognitoUserPoolDomain=${{steps.CognitoAuthDomain.outputs.prop}} S3BucketName=${{steps.S3BucketName.outputs.prop}}  --no-confirm-changeset --no-fail-on-empty-changeset --capabilities CAPABILITY_IAM --resolve-s3
 
-      # # Describe CF and get output
-      # - run: npm install -C scripts/
-      # - run: node scripts/updateInfo.js ${{ github.workspace }} ${{steps.Region.outputs.prop}}
+      # Describe CF and get output
+      - run: npm install -C scripts/
+      - run: node scripts/updateInfo.js ${{ github.workspace }} ${{steps.Region.outputs.prop}}
 
-      # # Build and Sync S#
-      # - run: yarn --cwd ${{ github.workspace }}/s3-website install
-      # - run: yarn --cwd ${{ github.workspace }}/s3-website build
-      # - run: aws s3 sync ${{ github.workspace }}/s3-website/build s3://${{steps.S3BucketName.outputs.prop}}
+      # Build and Sync S#
+      - run: yarn --cwd ${{ github.workspace }}/s3-website install
+      - run: yarn --cwd ${{ github.workspace }}/s3-website build
+      - run: aws s3 sync ${{ github.workspace }}/s3-website/build s3://${{steps.S3BucketName.outputs.prop}}
