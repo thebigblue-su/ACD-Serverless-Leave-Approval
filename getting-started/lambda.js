@@ -3,7 +3,7 @@ const AWS = require("aws-sdk");
 const ddb = new AWS.DynamoDB.DocumentClient();
 
 // DynamoDB Tables
-const userinfoTable = "console1";
+const userinfoTable = "demo";
 
 // getUserInfo
 const getUserInfo = async (userInfo) => {
