@@ -18,7 +18,7 @@ const CreateRequest = () => {
     if (startDate && endDate) {
       var from = moment(startDate);
       var to = moment(endDate);
-      const noDays = to.diff(from, "days");
+      const noDays = to.diff(from, "days") + 1;
       noDays > 0 ? setNoDays(noDays) : setNoDays(0);
     }
   }, [startDate, endDate]);

@@ -1,8 +1,8 @@
 {
-    "APIDomain": "xt7csayd7g",
-    "CloudfrontUrl": "d3rdqa4u3m8ywb.cloudfront.net",
-    "CognitoClientId": "357mfeh5feve3eao5ds1lrsv7a",
-    "CognitoUserPoolDomain": "acdauthdomain",
-    "Region": "ap-east-1",
-    "S3BucketName": "acd-website"
+    "APIDomain": "gssr4ema0k",
+    "CloudfrontUrl": "d10299posohazr.cloudfront.net",
+    "CognitoClientId": "2ee75rm09jr53jm9pqbnotb58e",
+    "CognitoUserPoolDomain": "demolaauthdomain",
+    "Region": "ap-south-1",
+    "S3BucketName": "demo-acd-la-website-hosting-bucket"
 }

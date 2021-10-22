@@ -112,19 +112,30 @@ body {
 
 .table--head tr {
   background: gainsboro;
-  border-radius: 50%;
+  border-radius: 5%;
 }
+
 .table--head tr th:first-child {
-  border-top-left-radius: 15px !important;
+  border-top-left-radius: 4px !important;
+  border-bottom-left-radius: 4px !important;
 }
 .table--head tr th:last-child {
-  border-top-right-radius: 15px !important;
+  border-top-right-radius: 4px !important;
+  border-bottom-right-radius: 4px !important;
 }
-.table--head tr th {
+
+.table th {
+  font-weight: 600;
+}
+.table--body tr td {
+  vertical-align: middle;
+}
+
+/* .table--head tr th {
   font-weight: bolder;
   padding: 30px 10px;
   font-size: 15px;
-}
+} 
 .table--body tr td {
   padding: 20px 0px;
-}
+} */
