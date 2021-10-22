@@ -196,12 +196,12 @@ Resources:
   LeaveApprovalApi:
     Type: AWS::Serverless::Api
     Properties:
-      StageName: prod
+      StageName: production
       Cors:
         AllowMethods: "'*'"
         AllowOrigin:
           - !Sub
-            - "'${CloudfrontDomain}'"
+            - "'https://${CloudfrontDomain}'"
             - { CloudfrontDomain: !GetAtt CloudFrontDistribution.DomainName }
         AllowHeaders: "'*'"
       Auth:
