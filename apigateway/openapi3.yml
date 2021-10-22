@@ -35,7 +35,7 @@ paths:
             responseParameters:
               method.response.header.Access-Control-Allow-Methods: "'OPTIONS,POST'"
               method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
-              method.response.header.Access-Control-Allow-Origin: "'${CloudFrontDistribution.DomainName}'"
+              method.response.header.Access-Control-Allow-Origin: "'https://${CloudFrontDistribution.DomainName}'"
             responseTemplates:
               application/json: "{}\n"
         requestTemplates:
@@ -73,7 +73,7 @@ paths:
             responseParameters:
               method.response.header.Access-Control-Allow-Methods: "'*'"
               method.response.header.Access-Control-Allow-Headers: "'*'"
-              method.response.header.Access-Control-Allow-Origin: "'${CloudFrontDistribution.DomainName}'"
+              method.response.header.Access-Control-Allow-Origin: "'https://${CloudFrontDistribution.DomainName}'"
             responseTemplates:
               application/json: "{}\n"
         requestTemplates:
@@ -92,7 +92,7 @@ paths:
       security:
         - CognitoAuthorizer: []
       x-amazon-apigateway-integration:
-        credentials: ${LeaveApprovalApiRole.Arn}
+        credentials: "${LeaveApprovalApiRole.Arn}"
         httpMethod: "POST"
         uri: "arn:aws:apigateway:${AWS::Region}:states:action/StartExecution"
         responses:
@@ -129,7 +129,7 @@ paths:
             responseParameters:
               method.response.header.Access-Control-Allow-Methods: "'*'"
               method.response.header.Access-Control-Allow-Headers: "'*'"
-              method.response.header.Access-Control-Allow-Origin: "'${CloudFrontDistribution.DomainName}'"
+              method.response.header.Access-Control-Allow-Origin: "'https://${CloudFrontDistribution.DomainName}'"
             responseTemplates:
               application/json: "{}\n"
         requestTemplates:

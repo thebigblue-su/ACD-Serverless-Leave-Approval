@@ -54,7 +54,7 @@ Resources:
         Root:
           Type: Api
           Properties:
-            RestApiId: !Ref LeaveApprovalApi
+            RestApiId: !Ref LeaveApprovalApi2
             Path: /getUserInfo
             Method: POST
 
@@ -86,7 +86,7 @@ Resources:
         Root:
           Type: Api
           Properties:
-            RestApiId: !Ref LeaveApprovalApi
+            RestApiId: !Ref LeaveApprovalApi2
             Path: /manualApproval
             Method: POST
 
@@ -156,7 +156,7 @@ Resources:
         Root:
           Type: Api
           Properties:
-            RestApiId: !Ref LeaveApprovalApi
+            RestApiId: !Ref LeaveApprovalApi2
             Path: /requestLeave
             Method: POST
 
@@ -193,19 +193,164 @@ Resources:
           KeyType: "HASH"
 
   #api
-  LeaveApprovalApi:
+  LeaveApprovalApi2:
     Type: AWS::Serverless::Api
     Properties:
-      Name: !Sub "LeaveApprovalApi"
-      StageName: UAT
+      Name: !Sub "LeaveApprovalApi2"
+      StageName: prod
       DefinitionBody:
-        Fn::Transform:
-          Name: AWS::Include
-          Parameters:
-            Location: apigateway/openapi3.yml
+        openapi: "3.0.1"
+        info:
+          title: "acd-api"
+          version: "1.0"
+
+        paths:
+          /getUserInfo:
+            post:
+              security:
+                - CognitoAuthorizer: []
+              x-amazon-apigateway-integration:
+                httpMethod: "POST"
+                uri: !Sub "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${GetUserInfo.Arn}/invocations"
+                passthroughBehavior: "when_no_match"
+                type: "aws_proxy"
+            options:
+              responses:
+                "200":
+                  description: "200 response"
+                  headers:
+                    Access-Control-Allow-Origin:
+                      schema:
+                        type: "string"
+                    Access-Control-Allow-Methods:
+                      schema:
+                        type: "string"
+                    Access-Control-Allow-Headers:
+                      schema:
+                        type: "string"
+                  content: {}
+              x-amazon-apigateway-integration:
+                responses:
+                  default:
+                    statusCode: "200"
+                    responseParameters:
+                      method.response.header.Access-Control-Allow-Methods: "'OPTIONS,POST'"
+                      method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+                      method.response.header.Access-Control-Allow-Origin: !Sub "'https://${CloudFrontDistribution.DomainName}'"
+                    responseTemplates:
+                      application/json: "{}\n"
+                requestTemplates:
+                  application/json: "{\n  \"statusCode\" : 200\n}\n"
+                passthroughBehavior: "when_no_match"
+                type: "mock"
+          /manualApproval:
+            post:
+              security:
+                - CognitoAuthorizer: []
+              x-amazon-apigateway-integration:
+                httpMethod: "POST"
+                uri: !Sub "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${ManualApproval.Arn}/invocations"
+                passthroughBehavior: "when_no_match"
+                type: "aws_proxy"
+            options:
+              responses:
+                "200":
+                  description: "200 response"
+                  headers:
+                    Access-Control-Allow-Origin:
+                      schema:
+                        type: "string"
+                    Access-Control-Allow-Methods:
+                      schema:
+                        type: "string"
+                    Access-Control-Allow-Headers:
+                      schema:
+                        type: "string"
+                  content: {}
+              x-amazon-apigateway-integration:
+                responses:
+                  default:
+                    statusCode: "200"
+                    responseParameters:
+                      method.response.header.Access-Control-Allow-Methods: "'OPTIONS,POST'"
+                      method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+                      method.response.header.Access-Control-Allow-Origin: !Sub "'https://${CloudFrontDistribution.DomainName}'"
+                    responseTemplates:
+                      application/json: "{}\n"
+                requestTemplates:
+                  application/json: "{\n  \"statusCode\" : 200\n}\n"
+                passthroughBehavior: "when_no_match"
+                type: "mock"
+          /requestLeave:
+            post:
+              responses:
+                "400":
+                  description: "400 response"
+                  content: {}
+                "200":
+                  description: "200 response"
+                  content: {}
+              security:
+                - CognitoAuthorizer: []
+              x-amazon-apigateway-integration:
+                credentials: !GetAtt LeaveApprovalApi2Role.Arn
+                httpMethod: "POST"
+                uri: !Sub "arn:aws:apigateway:${AWS::Region}:states:action/StartExecution"
+                responses:
+                  "200":
+                    statusCode: "200"
+                  "400":
+                    statusCode: "400"
+                requestTemplates:
+                  application/json:
+                    !Sub "{\"input\": \"$util.escapeJavaScript($input.json('$'))\"\
+                    , \"stateMachineArn\": \"${LeaveApplicationStepFunction}\"\
+                    }"
+                passthroughBehavior: "when_no_match"
+                type: "aws"
+            options:
+              responses:
+                "200":
+                  description: "200 response"
+                  headers:
+                    Access-Control-Allow-Origin:
+                      schema:
+                        type: "string"
+                    Access-Control-Allow-Methods:
+                      schema:
+                        type: "string"
+                    Access-Control-Allow-Headers:
+                      schema:
+                        type: "string"
+                  content: {}
+              x-amazon-apigateway-integration:
+                responses:
+                  default:
+                    statusCode: "200"
+                    responseParameters:
+                      method.response.header.Access-Control-Allow-Methods: "'OPTIONS,POST'"
+                      method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+                      method.response.header.Access-Control-Allow-Origin: !Sub "'https://${CloudFrontDistribution.DomainName}'"
+                    responseTemplates:
+                      application/json: "{}\n"
+                requestTemplates:
+                  application/json: "{\n  \"statusCode\" : 200\n}\n"
+                passthroughBehavior: "when_no_match"
+                type: "mock"
+        components:
+          securitySchemes:
+            CognitoAuthorizer:
+              type: "apiKey"
+              name: "Authorization"
+              in: "header"
+              x-amazon-apigateway-authtype: "cognito_user_pools"
+              x-amazon-apigateway-authorizer:
+                providerARNs:
+                  - !Sub "arn:aws:cognito-idp:${AWS::Region}:${AWS::AccountId}:userpool/${CognitoUserPool}"
+                type: "cognito_user_pools"
 
   #api role
-  LeaveApprovalApiRole:
+  LeaveApprovalApi2Role:
     Type: AWS::IAM::Role
     Properties:
       ManagedPolicyArns:
@@ -381,6 +526,6 @@ Outputs:
   CloudfrontUrl:
     Value: !GetAtt CloudFrontDistribution.DomainName
   APIDomain:
-    Value: !Ref LeaveApprovalApi
+    Value: !Ref LeaveApprovalApi2
   CognitoClientId:
     Value: !Ref CognitoUserPoolClient
