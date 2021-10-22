@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import moment from "moment";
-// import Axios from "axios";
+import Axios from "axios";
 import { GlobalContext } from "./Context";
 import configData from "./config.json";
 
@@ -36,42 +36,17 @@ const CreateRequest = () => {
         leavesTaken: 11,
         reason: value,
       };
-      // const url = `https://${configData.APIDomain}.execute-api.${configData.Region}.amazonaws.com/prod/requestLeave`;
-      // Axios({
-      //   method: "POST",
-      //   url,
-      //   data,
-      //   headers: {
-      //     Authorization: `${token}`,
-      //     "Content-Type": "application/json",
-      //     "Access-Control-Allow-Origin": "*",
-      //   },
-      // })
-      //   .then((el) => {
-      //     setDates({ startDate: "", endDate: "" });
-      //     setValue("");
-      //     setNoDays(0);
-      //     setTimeout(() => {
-      //       get_user_info(decoded_mail, token);
-      //     }, 1000);
-      //   })
-      //   .catch((err) => {
-      //     // console.log(err);
-      //   });
-      fetch(
-        `https://${configData.APIDomain}.execute-api.${configData.Region}.amazonaws.com/production/requestLeave`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `${token}`,
-          },
-          body: JSON.stringify(data),
-        }
-      )
-        .then((response) => response.json())
-        .then((data) => {
-          console.log("Success:", data);
+      const url = `https://${configData.APIDomain}.execute-api.${configData.Region}.amazonaws.com/prod/requestLeave`;
+      Axios({
+        method: "POST",
+        url,
+        data,
+        headers: {
+          Authorization: `${token}`,
+          "Content-Type": "application/json",
+        },
+      })
+        .then((el) => {
           setDates({ startDate: "", endDate: "" });
           setValue("");
           setNoDays(0);
@@ -79,8 +54,8 @@ const CreateRequest = () => {
             get_user_info(decoded_mail, token);
           }, 1000);
         })
-        .catch((error) => {
-          console.log(error);
+        .catch((err) => {
+          // console.log(err);
         });
     }
   };
