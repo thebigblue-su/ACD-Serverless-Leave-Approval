@@ -54,7 +54,7 @@ Resources:
         Root:
           Type: Api
           Properties:
-            RestApiId: !Ref LeaveApprovalApi
+            RestApiId: !Ref LeaveApprovalApi2
             Path: /getUserInfo
             Method: POST
 
@@ -86,7 +86,7 @@ Resources:
         Root:
           Type: Api
           Properties:
-            RestApiId: !Ref LeaveApprovalApi
+            RestApiId: !Ref LeaveApprovalApi2
             Path: /manualApproval
             Method: POST
 
@@ -156,7 +156,7 @@ Resources:
         Root:
           Type: Api
           Properties:
-            RestApiId: !Ref LeaveApprovalApi
+            RestApiId: !Ref LeaveApprovalApi2
             Path: /requestLeave
             Method: POST
 
@@ -193,10 +193,10 @@ Resources:
           KeyType: "HASH"
 
   #api
-  LeaveApprovalApi:
+  LeaveApprovalApi2:
     Type: AWS::Serverless::Api
     Properties:
-      StageName: production
+      StageName: prod
       Cors:
         AllowMethods: "'*'"
         AllowOrigin:
@@ -355,6 +355,6 @@ Outputs:
   CloudfrontUrl:
     Value: !GetAtt CloudFrontDistribution.DomainName
   APIDomain:
-    Value: !Ref LeaveApprovalApi
+    Value: !Ref LeaveApprovalApi2
   CognitoClientId:
     Value: !Ref CognitoUserPoolClient
